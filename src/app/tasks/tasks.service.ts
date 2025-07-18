@@ -6,25 +6,27 @@ import { Task } from "./task.model";
 })
 export class TasksService {
   // non-signal version
-  tasks: Task[] = [];
-  addTask(taskData: { title: string; description: string }) {
+  tasks2: Task[] = [];
+  addTask2(taskData: { title: string; description: string }) {
     const newTask: Task = {
       title: taskData.title,
       description: taskData.description,
       id: Math.random().toString(),
       status: "OPEN",
     };
-    this.tasks = [...this.tasks, newTask];
+    this.tasks2 = [...this.tasks2, newTask];
   }
 
   // signal version
-  tasks2 = signal<Task[]>([]);
-  addTask2(taskData: { title: string; description: string }) {
+  private tasks = signal<Task[]>([]);
+  allTasks = this.tasks.asReadonly();
+
+  addTask(taskData: { title: string; description: string }) {
     const newTask: Task = {
       ...taskData,
       id: Math.random().toString(),
       status: "OPEN",
     };
-    this.tasks2.update((oldTasks) => [...oldTasks, newTask]);
+    this.tasks.update((oldTasks) => [...oldTasks, newTask]);
   }
 }
