@@ -1,9 +1,9 @@
 import { Injectable, signal } from "@angular/core";
 import { Task, TaskStatus } from "./task.model";
 
-// @Injectable({
-//   providedIn: "root",
-// })
+@Injectable({
+  providedIn: "root",
+})
 export class TasksService {
   // non-signal version
   tasks2: Task[] = [];
