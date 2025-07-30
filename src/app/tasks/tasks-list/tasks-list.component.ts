@@ -14,11 +14,11 @@ import { TASKS_STATUS_OPTION, taskStatusOptionsProvider } from "../task.model";
 })
 export class TasksListComponent {
   private tasksService = inject(TasksServiceToken);
-  private selectedFilter = signal<string>("all");
+  private selectedFilter = "all";
   taskStatusOptions = inject(TASKS_STATUS_OPTION);
 
-  tasks = computed(() => {
-    switch (this.selectedFilter()) {
+  get tasks() {
+    switch (this.selectedFilter) {
       case "open":
         return this.tasksService
           .allTasks()
@@ -34,9 +34,9 @@ export class TasksListComponent {
       default:
         return this.tasksService.allTasks();
     }
-  });
+  }
 
   onChangeTasksFilter(filter: string) {
-    this.selectedFilter.set(filter);
+    this.selectedFilter = filter;
   }
 }

@@ -9,7 +9,12 @@ export class TasksService {
   private loggingService = inject(LoggingService);
 
   // non-signal version
-  tasks2: Task[] = [];
+  private tasks2: Task[] = [];
+  get allTasks2() {
+    // using a getter which returns a copy to make sure the original tasks cannot be changed
+    return [...this.tasks2];
+  }
+
   addTask2(taskData: { title: string; description: string }) {
     const newTask: Task = {
       title: taskData.title,
@@ -19,6 +24,15 @@ export class TasksService {
     };
     this.tasks2 = [...this.tasks2, newTask];
     this.loggingService.log("ADDED TASK with title " + taskData.title);
+  }
+
+  updateTaskStatus2(taskId: string, newStatus: TaskStatus) {
+    this.tasks.update((oldTasks) =>
+      oldTasks.map((task) =>
+        task.id === taskId ? { ...task, status: newStatus } : task
+      )
+    );
+    this.loggingService.log("CHANGE TASK STATE " + newStatus);
   }
 
   // signal version
